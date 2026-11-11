@@ -4,46 +4,70 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { educations } from "@/data/experience";
+import { VIEWPORT, fadeUpStagger } from "@/lib/animations";
+
+const highlights = [
+  "Full-stack web development with Next.js and NestJS",
+  "Mobile development with Flutter and Laravel",
+  "Backend systems with Node.js, Express, NestJS and Laravel",
+  "Database design and management with PostgreSQL",
+];
 
 export function About() {
   return (
-    <section id="about" className="py-24 px-6 lg:px-12">
-      <div className="max-w-7xl mx-auto">
+    <section id="about" className="relative overflow-hidden py-28 px-6 lg:px-12">
+      <div
+        className="glow-blob absolute left-[-15%] top-1/3 h-[420px] w-[420px] bg-indigo-700/10"
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-7xl">
         <SectionTitle
+          eyebrow="Who I Am"
           title="About Me"
           description="MIS student passionate about building scalable software solutions"
         />
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid items-center gap-14 lg:grid-cols-2">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="relative"
+            variants={fadeUpStagger(0)}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={VIEWPORT}
+            className="group relative mx-auto w-full max-w-md"
           >
-            <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl"></div>
-            <Image
-              src="/images/profile.jpg"
-              alt="Profile"
-              className="relative rounded-xl border border-white/10"
-              width={400}
-              height={400}
-              sizes="(max-width: 768px) 100vw, 400px"
+            {/* Rotating halo */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-3 rounded-3xl bg-[conic-gradient(from_0deg,rgba(99,102,241,0.35),transparent_40%,rgba(168,85,247,0.35),transparent_90%)] opacity-70 blur-xl"
+              aria-hidden
             />
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50">
+              <Image
+                src="/images/profile.jpg"
+                alt="Profile"
+                className="transition-transform duration-700 ease-out group-hover:scale-105"
+                width={400}
+                height={400}
+                sizes="(max-width: 768px) 100vw, 400px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+            </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="space-y-6"
+            variants={fadeUpStagger(0.15)}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={VIEWPORT}
+            className="space-y-8"
           >
             <div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">
+              <h3 className="mb-2 text-xl font-semibold text-foreground">
                 Background
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                I'm a Management Information Systems (MIS) student at SETEC
+              <p className="leading-relaxed text-muted-foreground">
+                I&apos;m a Management Information Systems (MIS) student at SETEC
                 Institute with a passion for software development. I specialize
                 in building full-stack web applications, backend systems, and
                 mobile applications with clean, maintainable code.
@@ -51,49 +75,49 @@ export function About() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">
+              <h3 className="mb-3 text-xl font-semibold text-foreground">
                 What I Do
               </h3>
-              <ul className="space-y-3 text-muted-foreground leading-relaxed">
-                <li className="flex items-center gap-3">
-                  <span className="text-primary">▹</span>
-                  Full-stack web development with Next.js and NestJS
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="text-primary">▹</span>
-                  Mobile development with Flutter and Laravel
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="text-primary">▹</span>
-                  Backend systems with C# and ASP.NET Core
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="text-primary">▹</span>
-                  Database design and management with PostgreSQL
-                </li>
+              <ul className="space-y-3">
+                {highlights.map((point, i) => (
+                  <motion.li
+                    key={point}
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={VIEWPORT}
+                    transition={{ duration: 0.45, delay: 0.1 + i * 0.08, ease: "easeOut" }}
+                    className="group flex items-center gap-3 text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary/10 text-[10px] text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white">
+                      ✓
+                    </span>
+                    {point}
+                  </motion.li>
+                ))}
               </ul>
             </div>
 
-            <div className="pt-4">
-              <h3 className="text-xl font-semibold text-foreground mb-4">
+            <div className="pt-2">
+              <h3 className="mb-4 text-xl font-semibold text-foreground">
                 Education
               </h3>
               {educations.map((edu) => (
-                <div key={edu.id} className="mb-6">
-                  <div className="flex justify-between items-start mb-1">
-                    <h4 className="text-lg font-semibold text-foreground">
+                <div
+                  key={edu.id}
+                  className="mb-5 rounded-xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:border-primary/30 hover:bg-white/[0.04]"
+                >
+                  <div className="mb-1 flex items-start justify-between gap-4">
+                    <h4 className="font-semibold text-foreground">
                       {edu.institution}
                     </h4>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-0.5 text-xs text-muted-foreground">
                       {edu.duration}
                     </span>
                   </div>
-                  <p className="text-sm text-primary font-medium">
+                  <p className="text-sm font-medium text-primary">
                     {edu.degree} in {edu.field}
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    {edu.location}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{edu.location}</p>
                 </div>
               ))}
             </div>

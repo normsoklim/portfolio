@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Technical Skills – Infinite horizontal ticker
+   ========================================================================== */
+
+/* Ticker viewport: clips the moving track and fades the edges */
+.ticker {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background: rgba(12, 12, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  padding: 1.5rem 1rem;
+  margin-top: 1rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Moving track: contains the skills list twice for a seamless loop */
+.ticker-track {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  animation: ticker 50s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover so skills are comfortable to read */
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Individual skill card */
+.ticker-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  min-width: 110px;
+  padding: 0.75rem 1rem;
+  background: rgba(17, 17, 17, 0.6);
+  border: 1px solid rgba(39, 39, 42, 0.5);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.ticker-item:hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 8px 24px -8px rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+/* Technology logo */
+.ticker-icon {
+  width: 32px;
+  height: 32px;
+  color: #a1a1aa;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.ticker-item:hover .ticker-icon {
+  color: #818cf8;
+  transform: scale(1.1);
+}
+
+/* Technology name */
+.ticker-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fafafa;
+  text-align: center;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Keyframes – move the track left by exactly one copy (-50%) so the
+   duplicated second half aligns seamlessly where the first half started.
+   ========================================================================== */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ==========================================================================
+   Mobile adjustments
+   ========================================================================== */
+@media (max-width: 640px) {
+  .ticker {
+    padding: 1.25rem 0.75rem;
+    border-radius: 0.75rem;
+  }
+
+  .ticker-track {
+    gap: 1rem;
+    animation-duration: 40s;
+  }
+
+  .ticker-item {
+    min-width: 88px;
+    padding: 0.6rem 0.7rem;
+    border-radius: 0.625rem;
+  }
+
+  .ticker-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .ticker-name {
+    font-size: 0.8rem;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion – stop the animation for users who prefer less motion.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
