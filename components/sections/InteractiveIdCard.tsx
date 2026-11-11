@@ -207,7 +207,7 @@ export function InteractiveIdCard() {
                 width={110}
                 height={190}
                 draggable={false}
-                className="absolute left-[92px] top-[18px] h-[190px] w-[108px] object-cover object-top opacity-25 grayscale"
+                className="absolute left-[92px] top-[18px] h-[190px] w-[110px] object-cover object-top opacity-25 grayscale"
                 style={{
                   WebkitMaskImage: "linear-gradient(to bottom, #000 55%, transparent)",
                   maskImage: "linear-gradient(to bottom, #000 55%, transparent)",
